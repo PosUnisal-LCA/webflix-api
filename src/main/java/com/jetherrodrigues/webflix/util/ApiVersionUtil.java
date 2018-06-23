@@ -11,6 +11,7 @@ public class ApiVersionUtil {
 	 * The resource paths
 	 */
 	public final static String MOVIE = "movie";
+	public final static String USUARIO = "usuario";
 	public final static String CATEGORY = "category";
 	public final static String IMAGE = "image";
 }
