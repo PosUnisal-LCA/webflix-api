@@ -17,6 +17,9 @@ public class DataBaseInitialConfig implements ApplicationListener<ContextRefresh
 
 	@Autowired
 	private MovieRepository movieRepository;
+	
+	@Autowired
+	private ImageRepository usuarioRepository;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
