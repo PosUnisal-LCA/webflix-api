@@ -48,6 +48,16 @@ public class UsuarioResource implements Serializable {
 				.body(usuario);
 	}
 	
+	@GetMapping("{login}/{senha}")
+	public ResponseEntity<Usuario> getUsuarioById(@PathVariable(name="login") String login,@PathVariable(name="senha") String senha ) throws WebflixUsuarioNotFound {
+		Usuario usuario = this.usuarioService.findByLogin(login, senha);
+		if(usuario == null) throw new WebflixUsuarioNotFound("There is no image with this id!");
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS))
+				.body(usuario);
+	}
+	
 	@PostMapping
 	public ResponseEntity<Void> saveUsuario(@Valid @RequestBody Usuario usuario) {
 		usuario = this.usuarioService.save(usuario);

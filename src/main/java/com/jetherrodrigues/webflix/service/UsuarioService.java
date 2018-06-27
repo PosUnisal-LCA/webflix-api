@@ -4,10 +4,16 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.jetherrodrigues.webflix.domain.Usuario;
 import com.jetherrodrigues.webflix.repository.UsuarioRepository;
+
+
+
 import com.jetherrodrigues.webflix.repository.UsuarioRepository;
 
 @Service
@@ -20,13 +26,28 @@ public class UsuarioService implements Serializable {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+	@Autowired
+    MongoTemplate mongoTemplate;
+
 	public Usuario save(Usuario usuario) {
 		return this.usuarioRepository.save(usuario);
 	}
 	
 	public Usuario findById(String id) {
-		return this.usuarioRepository.findOne(id);
+		Query query = new Query();
+		query.addCriteria(Criteria.where("id").is(id));
+		return (Usuario) this.mongoTemplate.findOne(query, Usuario.class);
+		//return this.usuarioRepository.findOne(id);
+	}
+	public Usuario findByLogin(String login,String senha ) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("login").is(login).and("senha").is(senha));
+		return (Usuario) this.mongoTemplate.findOne(query, Usuario.class);
+
+	}
+	public boolean delete(String id) {
+		this.usuarioRepository.delete(id);
+		return true;
 	}
 	
 	public List<Usuario> findAll() {

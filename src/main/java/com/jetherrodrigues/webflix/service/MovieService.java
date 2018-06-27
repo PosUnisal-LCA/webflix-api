@@ -25,6 +25,7 @@ public class MovieService implements Serializable {
 	}
 	
 	public Movie findById(String id) {
+	
 		return this.movieRepository.findOne(id);
 	}
 	
