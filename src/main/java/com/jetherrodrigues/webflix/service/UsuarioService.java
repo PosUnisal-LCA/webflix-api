@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.jetherrodrigues.webflix.domain.Usuario;
@@ -45,10 +46,25 @@ public class UsuarioService implements Serializable {
 		return (Usuario) this.mongoTemplate.findOne(query, Usuario.class);
 
 	}
-	public boolean delete(String id) {
-		this.usuarioRepository.delete(id);
+	public boolean delete(Usuario usuario) {
+		this.usuarioRepository.delete(usuario);
 		return true;
 	}
+	
+	public Usuario update(Usuario usuario) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("id").is(usuario.getId()));
+
+		Update update = new Update();
+		update.set("name", usuario.getName());
+		update.set("senha", usuario.getSenha());
+		update.set("login", usuario.getLogin());
+
+		this.mongoTemplate.updateFirst(query, update, Usuario.class);
+
+		return usuario;
+	}
+	
 	
 	public List<Usuario> findAll() {
 		return this.usuarioRepository.findAll();
