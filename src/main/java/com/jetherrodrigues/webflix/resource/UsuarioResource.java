@@ -58,15 +58,15 @@ public class UsuarioResource implements Serializable {
 				.body(usuario);
 	}
 	
-	//@GetMapping("/delete/{id}")
-	//public ResponseEntity<Boolean> deleteUsuario(@PathVariable(name="id") String id) throws WebflixUsuarioNotFound {
-		//boolean u= this.usuarioService.delete(id);
-	//	if(!u) throw new WebflixUsuarioNotFound("There is no image with this id!");
-		//
-		//return ResponseEntity.status(HttpStatus.OK)
-			//	.cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS))
-				//.body(true);
-	//}
+	@GetMapping("/delete/{id}")
+	public ResponseEntity<Boolean> deleteUsuario(@PathVariable(name="id") String id) throws WebflixUsuarioNotFound {
+		boolean u= this.usuarioService.delete(id);
+		if(!u) throw new WebflixUsuarioNotFound("There is no image with this id!");
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS))
+				.body(true);
+	}
 	
 	@PostMapping
 	public ResponseEntity<Void> saveUsuario(@Valid @RequestBody Usuario usuario) {
@@ -78,23 +78,6 @@ public class UsuarioResource implements Serializable {
 				.toUri()).build();
 	}
 	
-	@DeleteMapping
-	public ResponseEntity<Void> deleteUsuario(@Valid @RequestBody Usuario usuario) {
-		boolean u= this.usuarioService.delete(usuario);
-		if(u) {
-		return ResponseEntity
-				.created(ServletUriComponentsBuilder.fromCurrentRequest()
-				.buildAndExpand()
-				.toUri()).build();
-		}
-		else{
-			return ResponseEntity
-					.created(ServletUriComponentsBuilder.fromCurrentRequest()
-					.buildAndExpand()
-					.toUri()).build();
-			
-		}
-	}
 	
 	
 	@PutMapping

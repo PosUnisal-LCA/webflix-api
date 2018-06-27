@@ -46,8 +46,8 @@ public class UsuarioService implements Serializable {
 		return (Usuario) this.mongoTemplate.findOne(query, Usuario.class);
 
 	}
-	public boolean delete(Usuario usuario) {
-		this.usuarioRepository.delete(usuario);
+	public boolean delete(String id) {
+		this.usuarioRepository.delete(id);
 		return true;
 	}
 	
